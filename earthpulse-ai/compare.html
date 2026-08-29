@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Earth Time Machine — EarthPulse AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%235ce1e6%22/></svg>">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+<div class="starfield"></div>
+<div class="grid-overlay"></div>
+
+<nav class="app-topbar">
+  <a href="index.html" class="brand"><span class="brand-mark"></span> EarthPulse AI</a>
+  <div class="topbar-actions">
+    <span class="mode-badge" id="cmpModeBadge"><span class="dot"></span> LIVE NASA DATA</span>
+    <a href="dashboard.html" class="btn btn-ghost">Dashboard</a>
+    <a href="about.html" class="btn btn-ghost">About</a>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:14px;">
+  <div class="demo-banner" id="cmpDemoBanner">
+    ⚠ DEMO DATA — connect NASA APIs for live observations. See README for setup.
+  </div>
+</div>
+
+<main id="compareApp" class="wrap compare-header" style="padding-bottom:70px;">
+
+  <div style="margin-bottom:22px;">
+    <span class="eyebrow">Earth Time Machine</span>
+    <h1 style="font-size:clamp(26px,3.4vw,36px); margin-top:14px;">Compare two moments in time.</h1>
+    <p style="color:var(--text-dim); margin-top:10px; max-width:600px;">Pick a location, choose two date ranges, and see how NASA POWER climate metrics changed between them.</p>
+  </div>
+
+  <div class="panel" style="padding:18px; margin-bottom:18px;">
+    <div class="panel-title">Location</div>
+    <div class="search-row">
+      <input id="cmpSearchInput" class="input" type="text" placeholder="Search a place… (e.g. Cairo)">
+    </div>
+    <div id="cmpSearchResults" class="search-results"></div>
+    <div class="location-readout" style="margin-top:10px;">
+      <span class="name" id="cmpLocLabel">Bengaluru, India</span>
+    </div>
+  </div>
+
+  <div class="range-compare-grid" style="margin-bottom:18px;">
+    <div class="panel range-block">
+      <h4>Range A (earlier)</h4>
+      <div class="range-inputs">
+        <input id="aStart" type="date" class="input">
+        <input id="aEnd" type="date" class="input">
+      </div>
+    </div>
+    <div class="panel range-block">
+      <h4>Range B (later)</h4>
+      <div class="range-inputs">
+        <input id="bStart" type="date" class="input">
+        <input id="bEnd" type="date" class="input">
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:22px;">
+    <button id="runCompare" class="btn btn-primary">Compare Ranges →</button>
+  </div>
+
+  <div class="panel" style="padding:20px; margin-bottom:18px;">
+    <div class="panel-title">Change Summary</div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Metric</th><th>Range A</th><th>Range B</th><th>% Change</th></tr>
+      </thead>
+      <tbody id="compareTableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="panel chart-panel" id="compareChartWrap">
+    <div class="panel-title">Percent Change by Metric</div>
+    <div class="chart-canvas-wrap"><canvas id="compareChart"></canvas></div>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/nasa.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

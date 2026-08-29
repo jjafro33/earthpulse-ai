@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — EarthPulse AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%235ce1e6%22/></svg>">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+<div class="starfield"></div>
+<div class="grid-overlay"></div>
+
+<nav class="app-topbar">
+  <a href="index.html" class="brand"><span class="brand-mark"></span> EarthPulse AI</a>
+  <div class="topbar-actions">
+    <span class="mode-badge" id="modeBadge"><span class="dot"></span> LIVE NASA DATA</span>
+    <a href="compare.html" class="btn btn-ghost">Time Machine</a>
+    <a href="about.html" class="btn btn-ghost">About</a>
+  </div>
+</nav>
+
+<div class="wrap" style="padding-top:14px;">
+  <div class="demo-banner" id="demoBanner">
+    ⚠ DEMO DATA — connect NASA APIs for live observations. See README for setup.
+  </div>
+</div>
+
+<main class="app-shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+
+    <div class="panel">
+      <div class="panel-title">Location Search</div>
+      <div class="search-row">
+        <input id="searchInput" class="input" type="text" placeholder="Search a place… (e.g. Nairobi)">
+      </div>
+      <div id="searchResults" class="search-results"></div>
+
+      <div class="panel-title" style="margin-top:14px;">Or enter coordinates</div>
+      <div class="coord-row">
+        <div class="coord-field">
+          <label for="latInput">Latitude</label>
+          <input id="latInput" class="input" type="number" step="0.0001" min="-90" max="90" value="12.9716">
+        </div>
+        <div class="coord-field">
+          <label for="lonInput">Longitude</label>
+          <input id="lonInput" class="input" type="number" step="0.0001" min="-180" max="180" value="77.5946">
+        </div>
+      </div>
+      <button id="goCoords" class="btn" style="width:100%; justify-content:center;">Go to Coordinates</button>
+
+      <div id="map"></div>
+
+      <div class="location-readout">
+        <span class="name" id="locName">Bengaluru, India</span>
+        <span id="locCoords">LAT 12.9716 · LON 77.5946</span>
+      </div>
+      <button id="saveLocationBtn" class="btn" style="width:100%; justify-content:center; margin-top:12px;">★ Save this location</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Account</div>
+      <div class="auth-row">
+        <div class="auth-status" id="authStatus">Checking session…</div>
+        <button id="authAction" class="btn" style="width:100%; justify-content:center;">Sign in</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Saved Locations</div>
+      <div class="saved-list" id="savedList">
+        <div class="empty-hint">No saved locations yet.</div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ============ MAIN COLUMN ============ -->
+  <section class="main-col">
+
+    <div class="panel range-bar">
+      <label for="startDate">From</label>
+      <input id="startDate" class="input" type="date">
+      <label for="endDate">To</label>
+      <input id="endDate" class="input" type="date">
+      <div class="spacer"></div>
+      <button id="applyRange" class="btn btn-primary">Apply Range</button>
+    </div>
+
+    <div class="metric-grid" id="metricGrid">
+      <div class="metric-card temp">
+        <div class="accent-bar"></div>
+        <div class="metric-head">
+          <span class="metric-label">Temperature</span>
+          <svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2"><path d="M12 2v13M9 15a3 3 0 1 0 6 0c0-1.5-1-2-1.5-2.5S12 11 12 9V2"/></svg>
+        </div>
+        <div class="metric-value" id="tempValue">—</div>
+        <div class="metric-delta flat" id="tempDelta">—</div>
+        <div class="metric-source">SOURCE: NASA POWER · T2M</div>
+      </div>
+
+      <div class="metric-card precip">
+        <div class="accent-bar"></div>
+        <div class="metric-head">
+          <span class="metric-label">Precipitation</span>
+          <svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="#5ce1e6" stroke-width="2"><path d="M8 16l-2 4M13 16l-2 4M18 16l-2 4M17 9a5 5 0 0 0-9.8-1.5A4 4 0 0 0 8 15.5h9A3.5 3.5 0 0 0 17 9Z"/></svg>
+        </div>
+        <div class="metric-value" id="precipValue">—</div>
+        <div class="metric-delta flat" id="precipDelta">—</div>
+        <div class="metric-source">SOURCE: NASA POWER · PRECTOTCORR</div>
+      </div>
+
+      <div class="metric-card solar">
+        <div class="accent-bar"></div>
+        <div class="metric-head">
+          <span class="metric-label">Solar Radiation</span>
+          <svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="#ffb454" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+        </div>
+        <div class="metric-value" id="solarValue">—</div>
+        <div class="metric-delta flat" id="solarDelta">—</div>
+        <div class="metric-source">SOURCE: NASA POWER · ALLSKY_SFC_SW_DWN</div>
+      </div>
+
+      <div class="metric-card fire">
+        <div class="accent-bar"></div>
+        <div class="metric-head">
+          <span class="metric-label">Fire Activity</span>
+          <svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="#ff8a4c" stroke-width="2"><path d="M12 2c2 4-2 5-2 8a4 4 0 0 0 8 0c0-1-.5-2-1-3 1 0 3 2 3 6a8 8 0 1 1-16 0c0-6 5-8 8-11Z"/></svg>
+        </div>
+        <div class="metric-value" id="fireValue">—</div>
+        <div class="metric-delta flat" id="fireDelta">—</div>
+        <div class="metric-source">SOURCE: NASA FIRMS · VIIRS/MODIS</div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="panel chart-panel">
+        <div class="panel-title">Temperature History <span>°C</span></div>
+        <div class="chart-canvas-wrap"><canvas id="tempChart"></canvas></div>
+      </div>
+      <div class="panel chart-panel">
+        <div class="panel-title">Precipitation History <span>mm/day</span></div>
+        <div class="chart-canvas-wrap"><canvas id="precipChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="panel chart-panel">
+        <div class="panel-title">Solar Radiation History <span>kWh/m²</span></div>
+        <div class="chart-canvas-wrap"><canvas id="solarChart"></canvas></div>
+      </div>
+      <div class="panel chart-panel">
+        <div class="panel-title">Nearby Fire Detections <span id="fireCount"></span></div>
+        <div class="fire-list" id="fireList">
+          <div class="empty-hint">Select a location to check for fire activity.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel insight-panel">
+      <div class="insight-head">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="insight-badge">AI Earth Insight</span>
+          <span class="confidence-meter" id="confidenceMeter" style="display:none;">
+            <span class="confidence-bar"><span class="confidence-fill" id="confidenceFill" style="width:0%"></span></span>
+            <span id="confidenceLabel">— confidence</span>
+          </span>
+        </div>
+        <button id="getInsightBtn" class="btn btn-primary">Generate Insight</button>
+      </div>
+
+      <div id="insightEmpty" class="insight-empty">
+        Get a plain-language explanation of what the data above shows, cited to the exact metrics on this page.
+      </div>
+      <div id="insightLoading" class="loading-row" style="display:none;">
+        <span class="spinner"></span> Analyzing observations…
+      </div>
+      <div id="insightBody" class="insight-body" style="display:none;"></div>
+
+      <div class="insight-section-label" id="evidenceLabel" style="display:none;">Data evidence</div>
+      <div class="evidence-list" id="evidenceList"></div>
+    </div>
+
+  </section>
+</main>
+
+<div class="modal-overlay" id="evidenceModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>Data Evidence</h3>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/nasa.js"></script>
+<script src="js/map.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

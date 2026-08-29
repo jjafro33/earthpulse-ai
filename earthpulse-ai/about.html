@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — EarthPulse AI</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%235ce1e6%22/></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="starfield"></div>
+<div class="grid-overlay"></div>
+
+<nav class="site-nav">
+  <a href="index.html" class="brand"><span class="brand-mark"></span> EarthPulse AI</a>
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="compare.html">Time Machine</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="dashboard.html" class="btn btn-primary">Launch Dashboard</a>
+</nav>
+
+<main class="about-body">
+  <span class="eyebrow">About the project</span>
+  <h1>What EarthPulse AI actually does</h1>
+  <p>EarthPulse AI is a hackathon MVP that lets you pick any location on Earth and see NASA-sourced climate and fire-activity observations, a historical trend view, and an AI-written explanation of what those numbers show. It is built to make one thing clear at every step: <strong>which parts of the screen are real NASA data, which parts are calculated from that data, and which parts are AI commentary.</strong></p>
+
+  <div class="about-tags">
+    <span class="source-pill"><span class="dot"></span> NASA POWER API</span>
+    <span class="source-pill"><span class="dot"></span> NASA FIRMS API</span>
+    <span class="source-pill"><span class="dot"></span> Supabase (DB · Auth · Edge Functions)</span>
+    <span class="source-pill"><span class="dot"></span> Leaflet.js</span>
+    <span class="source-pill"><span class="dot"></span> Chart.js</span>
+  </div>
+
+  <h2>Data sources</h2>
+  <ul>
+    <li><strong>NASA POWER</strong> (Prediction of Worldwide Energy Resources) supplies daily surface temperature, precipitation and solar radiation, derived from NASA satellite and reanalysis data, for any latitude/longitude back several decades.</li>
+    <li><strong>NASA FIRMS</strong> (Fire Information for Resource Management System) supplies near-real-time active-fire detections from MODIS and VIIRS satellite instruments.</li>
+  </ul>
+
+  <h2>How the AI insight works</h2>
+  <p>When you request an AI Earth Insight, the dashboard sends only the already-calculated, on-screen metrics (never raw satellite files, and never anything the AI could misread) to a Supabase Edge Function, which forwards a tightly-scoped prompt to the AI. The model is instructed to:</p>
+  <ul>
+    <li>explain the observed trend in plain language;</li>
+    <li>cite the specific metrics it was given;</li>
+    <li>separate what was <em>observed</em> from what might <em>explain</em> it;</li>
+    <li>never invent a NASA measurement that wasn't supplied;</li>
+    <li>attach a confidence level and a "Data evidence" section.</li>
+  </ul>
+  <p>Every insight has a <strong>View Evidence</strong> button that jumps to the exact chart or card the AI referenced, so you can check its reasoning against the source numbers yourself.</p>
+
+  <h2>Demo mode</h2>
+  <p>If NASA API access, Supabase credentials, or the AI key are not configured, EarthPulse AI runs in a clearly labelled <strong>DEMO MODE</strong> using realistic sample data shaped like real API responses. Demo data is always marked with a visible banner &mdash; it is never presented as live NASA data.</p>
+
+  <h2>What's real vs. simulated in this build</h2>
+  <ul>
+    <li><strong>Live when configured:</strong> NASA POWER climate values, NASA FIRMS fire detections, AI-generated insight text, saved locations (requires sign-in).</li>
+    <li><strong>Always computed client/server-side, never invented:</strong> percentage change, trend direction, and historical comparisons &mdash; derived directly from the fetched NASA values.</li>
+    <li><strong>Demo fallback only:</strong> sample climate/fire figures shown when an API or key is unavailable, always labelled "DEMO DATA."</li>
+  </ul>
+
+  <h2>Not affiliated with NASA</h2>
+  <p>EarthPulse AI is an independent hackathon project that consumes public NASA APIs. It does not use NASA logos, insignia, or branding, and is not endorsed by NASA.</p>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>EarthPulse AI &mdash; NASA Earth-observation intelligence, hackathon MVP.</span>
+    <span><a href="index.html">Back home</a></span>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

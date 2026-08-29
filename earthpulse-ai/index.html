@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarthPulse AI — NASA Earth Observation Intelligence</title>
+<meta name="description" content="Explore NASA climate and fire observation data for any location on Earth, with AI-generated explanations grounded in real measurements.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2214%22 fill=%22%235ce1e6%22/></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="starfield"></div>
+<div class="grid-overlay"></div>
+
+<nav class="site-nav">
+  <a href="index.html" class="brand"><span class="brand-mark"></span> EarthPulse AI</a>
+  <div class="nav-links">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="compare.html">Time Machine</a>
+    <a href="about.html">About</a>
+  </div>
+  <a href="dashboard.html" class="btn btn-primary">Launch Dashboard</a>
+</nav>
+
+<header class="hero">
+  <div>
+    <span class="eyebrow">Live NASA Earth Observation Feed</span>
+    <h1>Explore <span class="accent">Earth&rsquo;s Changes</span>,<br>backed by real data.</h1>
+    <p class="hero-sub">Pick any point on the planet and see temperature, rainfall, solar radiation and active-fire observations pulled from NASA POWER and FIRMS &mdash; plus a plain-language AI explanation that cites exactly the numbers behind it.</p>
+    <div class="hero-actions">
+      <a href="dashboard.html" class="btn btn-primary">Search a Location →</a>
+      <a href="about.html" class="btn">How it works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">2</div><div class="lbl">NASA APIs</div></div>
+      <div class="hero-stat"><div class="num">40+ yrs</div><div class="lbl">Climate Record</div></div>
+      <div class="hero-stat"><div class="num">100%</div><div class="lbl">Evidence-Cited</div></div>
+    </div>
+  </div>
+
+  <div class="earth-stage" aria-hidden="true">
+    <div class="orbit-ring r3"></div>
+    <div class="orbit-ring r2"></div>
+    <div class="orbit-ring r1 orbit-ring"></div>
+    <div class="satellite"></div>
+    <div class="earth-sphere"></div>
+    <div class="earth-glow-pulse"></div>
+    <span class="readout-chip c1">LAT 12.98 · LON 79.42</span>
+    <span class="readout-chip c2">T+0.8&deg;C ▲</span>
+  </div>
+</header>
+
+<section class="section" id="features">
+  <div class="section-head">
+    <span class="section-tag">// Dashboard Capabilities</span>
+    <h2>Mission-console tools for one location at a time.</h2>
+    <p>Every card on the dashboard traces back to a NASA measurement &mdash; nothing is estimated without being labelled as such.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18 9 9 0 0 1 0-18Z"/><path d="M3 12h18M12 3v18"/></svg>
+      </div>
+      <h3>Interactive Location Map</h3>
+      <p>Search, drop a pin, or click anywhere on the Leaflet map to pull observations for that exact latitude/longitude.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M4 15l4-5 4 3 4-7 4 4"/></svg>
+      </div>
+      <h3>Temperature, Rain &amp; Solar</h3>
+      <p>Daily and historical NASA POWER records for surface temperature, precipitation and solar radiation.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c2 4-2 5-2 8a4 4 0 0 0 8 0c0-1-.5-2-1-3 1 0 3 2 3 6a8 8 0 1 1-16 0c0-6 5-8 8-11Z"/></svg>
+      </div>
+      <h3>Active Fire Detection</h3>
+      <p>Nearby fire activity from NASA FIRMS satellite hotspot detections, normalized to the selected radius.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+      </div>
+      <h3>Earth Time Machine</h3>
+      <p>Compare two date ranges for the same location and see percentage change across every metric.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="M3 17l9 5 9-5M3 12l9 5 9-5"/></svg>
+      </div>
+      <h3>AI Earth Insight</h3>
+      <p>A written explanation of what changed and why it might matter &mdash; grounded only in the metrics actually shown to you.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <h3>Evidence Mode</h3>
+      <p>Every AI insight ships with a &ldquo;View Evidence&rdquo; button linking straight to the chart or number it references.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sources">
+  <div class="section-head">
+    <span class="section-tag">// Data Provenance</span>
+    <h2>Data sourced directly from NASA.</h2>
+    <p>EarthPulse AI does not generate synthetic climate figures. All live measurements are fetched server-side and labelled by source.</p>
+  </div>
+  <div class="source-strip">
+    <span class="source-pill"><span class="dot"></span> NASA POWER &mdash; Prediction of Worldwide Energy Resources</span>
+    <span class="source-pill"><span class="dot"></span> NASA FIRMS &mdash; Fire Information for Resource Management System</span>
+    <span class="source-pill"><span class="dot"></span> Supabase Edge Functions &mdash; secure API proxy layer</span>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="section-head">
+    <span class="section-tag">// Request Lifecycle</span>
+    <h2>How a query reaches you.</h2>
+  </div>
+  <div class="flow">
+    <div class="flow-step"><span class="idx">01</span><h4>Select a location</h4><p>Search a place name or drop a pin on the map to set latitude and longitude.</p></div>
+    <div class="flow-step"><span class="idx">02</span><h4>Edge Function fetch</h4><p>Supabase Edge Functions call NASA POWER and FIRMS server-side, keeping keys private.</p></div>
+    <div class="flow-step"><span class="idx">03</span><h4>Cache &amp; normalize</h4><p>Responses are cached in Postgres and shaped into clean JSON for the dashboard.</p></div>
+    <div class="flow-step"><span class="idx">04</span><h4>AI explanation</h4><p>Only the calculated metrics are sent to the AI, which must cite them and show confidence.</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="cta-panel">
+    <h2>Pick a point on Earth and see what NASA sees.</h2>
+    <p>No account required to explore. Sign in to save locations for later.</p>
+    <div class="cta-actions">
+      <a href="dashboard.html" class="btn btn-primary">Open the Dashboard →</a>
+      <a href="compare.html" class="btn">Try the Time Machine</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span>EarthPulse AI &mdash; built for a NASA Space Apps&ndash;style hackathon. Not affiliated with or endorsed by NASA.</span>
+    <span><a href="about.html">About &amp; Data Sources</a></span>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
